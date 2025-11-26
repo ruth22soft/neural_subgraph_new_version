@@ -47,7 +47,7 @@ jobs:
           echo " Verifying downloaded file..."
           file directed_caida.pkl
 
-          FILE_SIZE=$(stat -c%s amazon0302.pkl)
+          FILE_SIZE=$(stat -c%s directed_caida.pkl)
           echo "File size: $FILE_SIZE bytes"
 
           if [ $FILE_SIZE -lt 100000 ]; then
@@ -55,7 +55,7 @@ jobs:
             exit 1
           fi
 
-          if file amazon0302.pkl | grep -Eq "HTML|ASCII|Unicode"; then
+          if file directed_caida.pkl | grep -Eq "HTML|ASCII|Unicode"; then
             echo " ERROR: directed_caida.pkl is not a valid binary file!"
             exit 1
           fi
