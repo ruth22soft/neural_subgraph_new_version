@@ -36,6 +36,9 @@ jobs:
           echo "total_cpus=$TOTAL_CPUS" >> $GITHUB_OUTPUT
           echo "percent_used=$PERCENT_USED" >> $GITHUB_OUTPUT
       #  Run decoder using prebuilt Docker image
+      - name: Download CAIDA dataset
+        run: wget https://drive.google.com/file/d/1z-YyZi-STs6A3-CB07Lh_0qJBXcO2r4u/view?usp=sharing -O directed_caida.pkl
+        
       - name: Run decoder in Docker container
         run: |
           docker run --rm \
@@ -46,7 +49,7 @@ jobs:
               set -e
               echo 'Starting decoder run...'
               python -m subgraph_mining.decoder \
-                --dataset=directed.pkl \
+                --dataset=directed_caida.pkl \
                 --n_trials=200 \
                 --node_anchored \
                 --out_path=/app/results/patterns.pkl \
