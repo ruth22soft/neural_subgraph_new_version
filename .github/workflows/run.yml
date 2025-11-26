@@ -36,8 +36,8 @@ jobs:
           echo "total_cpus=$TOTAL_CPUS" >> $GITHUB_OUTPUT
           echo "percent_used=$PERCENT_USED" >> $GITHUB_OUTPUT
       #  Run decoder using prebuilt Docker image
-      - name: Download CAIDA dataset
-        run: wget https://drive.google.com/file/d/1z-YyZi-STs6A3-CB07Lh_0qJBXcO2r4u/view?usp=sharing -O directed_caida.pkl
+      # - name: Download CAIDA dataset
+      #   run: wget https://drive.google.com/file/d/1z-YyZi-STs6A3-CB07Lh_0qJBXcO2r4u/view?usp=sharing -O directed_caida.pkl
         
       - name: Run decoder in Docker container
         run: |
