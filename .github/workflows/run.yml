@@ -43,7 +43,7 @@ jobs:
       - name: Fetch caida_raw.pkl from GitHub Release
         run: |
           echo " Downloading CAIDA.pkl from GitHub Releases..."
-          wget -O caida_raw.pkl https://github.com/ruth22soft/neural_subgraph_new_version/releases/tag/AS 
+          wget -O caida_raw.pkl https://github.com/ruth22soft/neural_subgraph_new_version/releases/download/AS/caida_raw.pkl 
           echo " Verifying downloaded file..."
           file caida_raw.pkl
 
