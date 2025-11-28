@@ -37,29 +37,29 @@ jobs:
           echo "percent_used=$PERCENT_USED" >> $GITHUB_OUTPUT
       #  Run decoder using prebuilt Docker image
       # - name: Download CAIDA dataset
-      #   run: wget https://drive.google.com/file/d/1z-YyZi-STs6A3-CB07Lh_0qJBXcO2r4u/view?usp=sharing -O directed_caida.pkl
+      #   run: wget https://drive.google.com/file/d/1z-YyZi-STs6A3-CB07Lh_0qJBXcO2r4u/view?usp=sharing -O caida_raw.pkl
 
       # 2️. Download AS dataset from GitHub Release
-      - name: Fetch directed_caida.pkl from GitHub Release
+      - name: Fetch caida_raw.pkl from GitHub Release
         run: |
           echo " Downloading CAIDA.pkl from GitHub Releases..."
-          wget -O directed_caida.pkl https://github.com/ruth22soft/neural_subgraph_new_version/releases/tag/AS 
+          wget -O caida_raw.pkl https://github.com/ruth22soft/neural_subgraph_new_version/releases/tag/AS 
           echo " Verifying downloaded file..."
-          file directed_caida.pkl
+          file caida_raw.pkl
 
-          FILE_SIZE=$(stat -c%s directed_caida.pkl)
+          FILE_SIZE=$(stat -c%s caida_raw.pkl)
           echo "File size: $FILE_SIZE bytes"
 
           if [ $FILE_SIZE -lt 100000 ]; then
-            echo " ERROR: directed_caida.pkl is too small. Likely not downloaded correctly!"
+            echo " ERROR: caida_raw.pkl is too small. Likely not downloaded correctly!"
             exit 1
           fi
 
-          if file directed_caida.pkl | grep -Eq "HTML|ASCII|Unicode"; then
-            echo " ERROR: directed_caida.pkl is not a valid binary file!"
+          if file caida_raw.pkl | grep -Eq "HTML|ASCII|Unicode"; then
+            echo " ERROR: caida_raw.pkl is not a valid binary file!"
             exit 1
           fi
-          echo " directed_caida.pkl verified as binary."
+          echo " caida_raw.pkl verified as binary."
         
       - name: Run decoder in Docker container
         run: |
@@ -71,7 +71,7 @@ jobs:
               set -e
               echo 'Starting decoder run...'
               python -m subgraph_mining.decoder \
-                --dataset=directed_caida.pkl \
+                --dataset=caida_raw.pkl \
                 --n_trials=200 \
                 --node_anchored \
                 --out_path=/app/results/patterns.pkl \
