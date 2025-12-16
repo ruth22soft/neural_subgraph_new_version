@@ -28,15 +28,27 @@ def analyze_graph_for_streaming(graph, args):
     num_edges = graph.number_of_edges()
     avg_degree = num_edges / num_nodes if num_nodes else 0
 
-    clustering_coef = nx.average_clustering(graph.to_undirected())
+
+    #==========SAFE CLUSTERING=====================
+    if num_nodes == 0 or num_edges == 0:
+        clustering_coef = 0.0
+    else:
+        clustering_coef = nx.average_clustering(graph.to_undirected())
+        
     degrees = [d for _, d in graph.degree()]
     max_degree = max(degrees) if degrees else 0
     median_degree = sorted(degrees)[len(degrees) // 2] if degrees else 0
     is_power_law = (max_degree / (median_degree + 1)) > 10 if degrees else False
 
-    components = list(nx.connected_components(graph.to_undirected()))
+    # ============SAFE CONNECTED COMPONENTS===============
+    if num_nodes == 0:
+        components = []
+        largest_cc_size = 0
+    else:
+        components = list(nx.connected_components(graph.to_undirected()))
+        largest_cc_size = len(max(components, key=len)) if components else 0
+        
     n_components = len(components)
-    largest_cc_size = len(max(components, key=len)) if components else 0
     connectivity_ratio = largest_cc_size / num_nodes if num_nodes else 0
 
     use_streaming = False
