@@ -168,6 +168,8 @@ def pattern_growth(dataset, task, args):
         analyze=args.analyze,
     )
 
+    agent.args = args
+
     out_graphs = agent.run_search(args.n_trials)
 
     # Visualize patterns
